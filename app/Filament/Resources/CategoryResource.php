@@ -22,6 +22,7 @@ use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManage
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -42,7 +43,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->limit(50)->sortable(),
+                TextColumn::make('name')->limit(50)->sortable()->searchable(),
                 TextColumn::make('slug')->limit(50)
             ])
             ->filters([

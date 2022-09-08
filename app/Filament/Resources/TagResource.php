@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use Closure;
 use App\Models\Tag;
 use Filament\Forms;
@@ -21,6 +22,7 @@ use App\Filament\Resources\TagResource\RelationManagers;
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -41,7 +43,7 @@ class TagResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->limit(50)->sortable(),
+                TextColumn::make('name')->limit(50)->sortable()->searchable(),
                 TextColumn::make('slug')->limit(50)
             ])
             ->filters([
@@ -58,7 +60,7 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PostsRelationManager::class
         ];
     }
     
