@@ -41,14 +41,13 @@ class PostResource extends Resource
             ->schema([
                 Card::make()->schema([
                     Select::make('category_id')
-                        ->relationship('category', 'name'),
+                        ->relationship('category', 'name')->required(),
                     TextInput::make('title')->reactive()
                         ->afterStateUpdated(function (Closure $set, $state) {
                             $set('slug', Str::slug($state));
                         })->required(),
                     TextInput::make('slug')->required(),
-                    SpatieMediaLibraryFileUpload::make('thumbnail')->collection('posts'),
-                    RichEditor::make('content'),
+                    RichEditor::make('content')->required(),
                     Toggle::make('is_published')
                 ])
             ]);
@@ -62,7 +61,6 @@ class PostResource extends Resource
                 TextColumn::make('title')->limit(50)->sortable()->searchable(),
                 TextColumn::make('slug')->limit(50),
                 BooleanColumn::make('is_published'),
-                SpatieMediaLibraryImageColumn::make('thumbnail')->collection('posts')
             ])
             ->filters([
                 Filter::make('Published')
